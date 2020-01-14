@@ -33,5 +33,16 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     Set<EventEntity> events;
 
+    @OneToMany(mappedBy = "user")
+    Set<AttendanceEntity> attendances;
+
+    @OneToMany(mappedBy = "user")
+    Set<VoteEntity> votes;
+
+    @OneToMany(mappedBy = "user" )
+    Set<AwardingEntity> awardings;
+
+
+
 }
 

@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public final class UserMapper  {
 
-    public static void map (UserDTO sourceObject , UserEntity destinationObject)
+    public  void map (UserDTO sourceObject , UserEntity destinationObject)
     {
         destinationObject.setUserFullName(sourceObject.getUserFullName());
         destinationObject.setUserPassword(sourceObject.getUserPassword());
@@ -21,8 +21,7 @@ public final class UserMapper  {
         destinationObject.setUserRole(sourceObject.getUserRole());
         destinationObject.setUserVotes(sourceObject.getUserVotes());
     }
-
-    public static void map (UserEntity sourceObject, UserDTO destinationObject)
+    public  void map (UserEntity sourceObject, UserDTO destinationObject)
     {
         destinationObject.setUserEmail(sourceObject.getUserEmail());
         destinationObject.setUserFullName(sourceObject.getUserFullName());

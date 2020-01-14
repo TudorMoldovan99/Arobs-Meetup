@@ -13,6 +13,10 @@
         <mapping class="com.Arobs.Meetup.model.UserEntity"></mapping>
         <mapping class="com.Arobs.Meetup.model.ProposalEntity"></mapping>
         <mapping class="com.Arobs.Meetup.model.EventEntity"></mapping>
+        <mapping class="com.Arobs.Meetup.model.AttendanceEntity"></mapping>
+        <mapping class="com.Arobs.Meetup.model.VoteEntity"></mapping>
+        <mapping class="com.Arobs.Meetup.model.PrizeEntity"></mapping>
+        <mapping class="com.Arobs.Meetup.model.AwardingEntity"></mapping>
     </session-factory>
 
 </hibernate-configuration>

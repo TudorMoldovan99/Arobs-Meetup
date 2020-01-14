@@ -1,33 +1,27 @@
 package com.Arobs.Meetup.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public final class RepositoryFactory {
 
-   // @Autowired
-   private  static UserRepositoryImpl userRepository;
-
-   // @Autowired
-   private static ProposalRepositoryImpl proposalRepository;
-
-  //  @Autowired
-    private static EventRepositoryImpl eventRepository;
+    private static UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
 
-    public static IRepository getRepository(String repoType)
-    {
+    private static ProposalRepositoryImpl proposalRepository = new ProposalRepositoryImpl();
+
+
+    private static EventRepositoryImpl eventRepository = new EventRepositoryImpl();
+
+
+    public static IRepository getRepository(String repoType) {
         if (repoType.equals("user")) {
             return userRepository;
-        }
-        else if (repoType.equals("proposal")) {
+        } else if (repoType.equals("proposal")) {
             return proposalRepository;
-        }
-        else if (repoType.equals("event")) {
+        } else if (repoType.equals("event")) {
             return eventRepository;
-        }
-        else {
+        } else {
             return null;
         }
     }

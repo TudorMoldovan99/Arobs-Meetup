@@ -1,18 +1,15 @@
 package com.Arobs.Meetup.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.Arobs.Meetup.service.UserService.UserDTO;
 import com.Arobs.Meetup.service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -23,34 +20,37 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public List<UserDTO> listUsers() {
-        return  userService.findAllUsers();
+    public ResponseEntity<List<UserDTO>> listUsers() {
+        return  ResponseEntity.ok(userService.findAllUsers());
     }
 
-    @GetMapping("/showForm")
-    public String showFormForAdd(Model theModel) {
-        UserDTO theUser = new UserDTO();
-        theModel.addAttribute("User", theUser);
-        return "User-form";
-    }
 
     @PostMapping("/saveUser")
-    public void saveUser(@ModelAttribute("User") UserDTO theUser) {
+    public ResponseEntity<String> saveUser(@RequestBody UserDTO theUser) throws IOException {
         userService.saveUser(theUser);
-
+        return ResponseEntity.ok("User saved");
     }
 
-    @GetMapping("/updateForm")
-    public String showFormForUpdate(@RequestParam("UserId") int theId,
-                                    Model theModel) {
-        UserDTO theUser = userService.findUserById(theId);
-        theModel.addAttribute("User", theUser);
-        return "User-form";
-    }
-
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam("UserId") int theId) {
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteUser(@RequestParam("UserId") int theId) {
         userService.removeUser(theId);
-        return "redirect:/User/list";
+        return ResponseEntity.ok("User deleted");
     }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<String> updateUser(@RequestBody UserDTO theUser) throws IOException {
+        userService.updateUser(theUser);
+        return ResponseEntity.ok("User updated");
+    }
+
+    @GetMapping("/getUser")
+        public ResponseEntity<UserDTO> getUser(@RequestParam("UserEmail") String email , @RequestParam("UserPassword") String password) throws Exception {
+
+            UserDTO userDTO = userService.findByEmailAndPassword(email, password);
+            return ResponseEntity.ok(userDTO);
+
+
+        }
+
+
 }

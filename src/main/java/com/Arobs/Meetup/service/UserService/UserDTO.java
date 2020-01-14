@@ -1,6 +1,8 @@
 package com.Arobs.Meetup.service.UserService;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.*;
+import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
 
 
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Data
 @Component
+@JsonComponent
+
 public class UserDTO {
 
     private String userEmail;
@@ -15,4 +19,5 @@ public class UserDTO {
     private String userRole;
     private String userPassword;
     private int userVotes;
+
 }

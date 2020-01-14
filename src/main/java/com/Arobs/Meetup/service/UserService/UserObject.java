@@ -9,18 +9,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserObject {
 
-    @Autowired
-    private RepositoryFactory userRepositoryFactory;
-
 
     @Autowired
     private UserRepositoryImpl userDAO;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
     @Transactional
@@ -30,7 +31,7 @@ public class UserObject {
         for (UserEntity currentUser : userDAO.findAll())
         {
             UserDTO currentUserDTO = new UserDTO();
-            UserMapper.map(currentUser,currentUserDTO);
+            userMapper.map(currentUser,currentUserDTO);
             theUsersList.add(currentUserDTO);
         }
         return theUsersList;
@@ -38,9 +39,11 @@ public class UserObject {
 
 
     @Transactional
-    public void saveUser(UserDTO theUser) {
-        UserEntity user = new UserEntity() ;
-        UserMapper.map(theUser,user);
+    public void saveUser(UserDTO theUser) throws IOException {
+
+
+        UserEntity user = new UserEntity();
+        userMapper.map(theUser,user);
         userDAO.saveData(user);
     }
 
@@ -49,7 +52,7 @@ public class UserObject {
     public UserDTO findUserById(int theId) {
         UserEntity user = userDAO.findById(theId);
         UserDTO theUser = new UserDTO();
-        UserMapper.map(user,theUser);
+        userMapper.map(user,theUser);
         return theUser;
     }
 
@@ -60,7 +63,23 @@ public class UserObject {
     }
 
 
+    @Transactional
+    public void updateUser(UserDTO theUser) {
+        UserEntity user = new UserEntity();
+        userMapper.map(theUser,user);
+        userDAO.updateData(user);
+    }
 
+    @Transactional
+    public UserDTO findByEmailAndPassword(String email, String password) throws Exception {
+        UserEntity userEntity = userDAO.findByEmailAndPassword(email,password);
 
+        if (userEntity == null)
+            throw new Exception("No user found with given credentials");
 
+        UserDTO userDTO = new UserDTO();
+        userMapper.map(userEntity,userDTO);
+
+        return userDTO;
+    }
 }
