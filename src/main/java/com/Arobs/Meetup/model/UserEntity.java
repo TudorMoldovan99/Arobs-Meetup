@@ -4,6 +4,7 @@ package com.Arobs.Meetup.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -28,19 +29,19 @@ public class UserEntity {
     private String userEmail;
 
     @OneToMany(mappedBy = "user")
-    Set<ProposalEntity> proposals;
+    List<ProposalEntity> proposals;
 
     @OneToMany(mappedBy = "user")
-    Set<EventEntity> events;
+    List<EventEntity> events;
 
     @OneToMany(mappedBy = "user")
-    Set<AttendanceEntity> attendances;
+    List<AttendanceEntity> attendances;
 
     @OneToMany(mappedBy = "user")
-    Set<VoteEntity> votes;
+    List<VoteEntity> votes;
 
     @OneToMany(mappedBy = "user" )
-    Set<AwardingEntity> awardings;
+    List<AwardingEntity> awardings;
 
 
 

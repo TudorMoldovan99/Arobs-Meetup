@@ -1,15 +1,14 @@
 package com.Arobs.Meetup.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.Arobs.Meetup.service.UserService.UserDTO;
 import com.Arobs.Meetup.service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 
 @Controller
@@ -21,12 +20,12 @@ public class UserController {
 
     @GetMapping("/list")
     public ResponseEntity<List<UserDTO>> listUsers() {
-        return  ResponseEntity.ok(userService.findAllUsers());
+        return ResponseEntity.ok(userService.findAllUsers());
     }
 
 
     @PostMapping("/saveUser")
-    public ResponseEntity<String> saveUser(@RequestBody UserDTO theUser) throws IOException {
+    public ResponseEntity<String> saveUser(@RequestBody UserDTO theUser) throws Exception {
         userService.saveUser(theUser);
         return ResponseEntity.ok("User saved");
     }
@@ -43,14 +42,19 @@ public class UserController {
         return ResponseEntity.ok("User updated");
     }
 
-    @GetMapping("/getUser")
-        public ResponseEntity<UserDTO> getUser(@RequestParam("UserEmail") String email , @RequestParam("UserPassword") String password) throws Exception {
+    @GetMapping("/getUserByEmailAndPassword")
+    public ResponseEntity<UserDTO> getUser(@RequestParam("UserEmail") String email, @RequestParam("UserPassword") String password)
+            throws Exception {
+        UserDTO userDTO = userService.findByEmailAndPassword(email, password);
+        return ResponseEntity.ok(userDTO);
+    }
 
-            UserDTO userDTO = userService.findByEmailAndPassword(email, password);
-            return ResponseEntity.ok(userDTO);
+    @PostMapping("/addPointsToUserByEmail")
+    public ResponseEntity<String> addPointsToUser(@RequestParam("UserEmail") String email, @RequestParam("NoOfPoints") int numberOfPoints) throws Exception {
 
-
-        }
+        userService.addPointsToUser(email, numberOfPoints);
+        return ResponseEntity.ok("Points added!");
+    }
 
 
 }

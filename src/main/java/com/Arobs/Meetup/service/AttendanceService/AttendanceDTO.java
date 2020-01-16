@@ -1,14 +1,13 @@
 package com.Arobs.Meetup.service.AttendanceService;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 @Component
 @JsonComponent
@@ -18,9 +17,9 @@ public class AttendanceDTO {
 
     private int note;
 
-
+    @NonNull
     private int userId;
 
-
+    @NonNull
     private int eventId;
 }

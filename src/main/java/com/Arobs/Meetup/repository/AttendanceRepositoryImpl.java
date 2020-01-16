@@ -55,4 +55,19 @@ public class AttendanceRepositoryImpl implements IRepository<AttendanceEntity> {
         Session currentSession = sessionFactory.getCurrentSession();
         return currentSession.get(AttendanceEntity.class, theId);
     }
+
+    public AttendanceEntity findByUserIdAndEventId(int userId, int eventId) throws Exception
+    {
+        Session session = sessionFactory.getCurrentSession();
+        Query hql = session.createQuery("from AttendanceEntity u where u.event.id = :eventId and u.user.id = :userId")
+                .setParameter("userId", userId)
+                .setParameter("eventId", eventId);
+        AttendanceEntity foundAttendance = null;
+        try {
+            foundAttendance = (AttendanceEntity) hql.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+        return foundAttendance;
+    }
 }

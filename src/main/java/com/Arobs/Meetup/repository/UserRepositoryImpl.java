@@ -73,6 +73,21 @@ public class UserRepositoryImpl implements IRepository<UserEntity> {
         }
         return foundUser;
     }
+
+    public UserEntity findByEmail(String email) throws Exception{
+
+        Session session = sessionFactory.getCurrentSession();
+        Query hql = session.createQuery("from UserEntity u where u.userEmail = :email")
+                .setParameter("email", email);
+        UserEntity foundUser = null;
+        try {
+            foundUser = (UserEntity) hql.getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException("User does not exist!");
+        }
+        return foundUser;
+
+    }
 }
 
 

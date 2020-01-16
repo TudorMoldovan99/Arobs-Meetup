@@ -1,6 +1,9 @@
 package com.Arobs.Meetup.service.VoteService;
 
+import com.Arobs.Meetup.model.UserEntity;
 import com.Arobs.Meetup.model.VoteEntity;
+import com.Arobs.Meetup.repository.EventRepositoryImpl;
+import com.Arobs.Meetup.repository.UserRepositoryImpl;
 import com.Arobs.Meetup.repository.VoteRepositoryImpl;
 import com.Arobs.Meetup.service.VoteService.VoteDTO;
 import com.Arobs.Meetup.service.VoteService.VoteMapper;
@@ -16,7 +19,13 @@ import java.util.List;
 public class VoteObject {
 
     @Autowired
-    private VoteRepositoryImpl VoteDAO;
+    private VoteRepositoryImpl voteDAO;
+
+    @Autowired
+    private UserRepositoryImpl userDAO;
+
+    @Autowired
+    private EventRepositoryImpl eventRepository;
 
     @Autowired
     private VoteMapper voteMapper;
@@ -26,7 +35,7 @@ public class VoteObject {
     public List<VoteDTO> findAllVotes() {
         List<VoteDTO> theVotesList = new ArrayList<VoteDTO>();
 
-        for (VoteEntity currentVote : VoteDAO.findAll())
+        for (VoteEntity currentVote : voteDAO.findAll())
         {
             VoteDTO currentVoteDTO = new VoteDTO();
             voteMapper.map(currentVote,currentVoteDTO);
@@ -37,18 +46,27 @@ public class VoteObject {
 
 
     @Transactional
-    public void saveVote(VoteDTO theVote) throws IOException {
+    public void saveVote(VoteDTO theVote) throws Exception {
 
+        VoteEntity vote = new VoteEntity();
+        voteMapper.map(theVote,vote);
 
-        VoteEntity Vote = new VoteEntity();
-        voteMapper.map(theVote,Vote);
-        VoteDAO.saveData(Vote);
+        UserEntity userEntity = vote.getUser();
+
+        for (VoteEntity voteEntity : userEntity.getVotes())
+        {
+            if (voteEntity.getUser().getUserId() == theVote.getUserId() &&
+                voteEntity.getProposal().getProposalId() == theVote.getProposalId())
+                    throw new Exception("User cannot vote the same proposal twice!");
+        }
+
+        voteDAO.saveData(vote);
     }
 
 
     @Transactional
     public VoteDTO findVoteById(int theId) {
-        VoteEntity Vote = VoteDAO.findById(theId);
+        VoteEntity Vote = voteDAO.findById(theId);
         VoteDTO theVote = new VoteDTO();
         voteMapper.map(Vote,theVote);
         return theVote;
@@ -57,13 +75,25 @@ public class VoteObject {
 
     @Transactional
     public void removeVote(int theId) {
-        VoteDAO.removeData(theId);
+        voteDAO.removeData(theId);
     }
 
     @Transactional
     public void updateVote(VoteDTO theVote) {
         VoteEntity vote = new VoteEntity();
         voteMapper.map(theVote,vote);
-        VoteDAO.saveData(vote);
+        voteDAO.saveData(vote);
+    }
+
+    @Transactional
+    public void deleteVotesForProposal(int proposalId) {
+        List<VoteEntity> votes = voteDAO.findAll();
+        for(VoteEntity vote : votes )
+        {
+            if (vote.getProposal().getProposalId() == proposalId)
+            {
+                voteDAO.removeData(vote.getVoteId());
+            }
+        }
     }
 }

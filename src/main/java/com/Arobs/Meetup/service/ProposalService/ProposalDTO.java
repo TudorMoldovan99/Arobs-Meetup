@@ -14,7 +14,8 @@ import javax.persistence.Column;
 @Data
 @Component
 @JsonComponent
-public class ProposalDTO {
+public class ProposalDTO  {
+
 
     private String proposalTitle;
 

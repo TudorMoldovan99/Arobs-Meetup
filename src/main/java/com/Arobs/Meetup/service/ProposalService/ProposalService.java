@@ -18,4 +18,5 @@ public interface ProposalService {
 
     ProposalDTO findProposalById(int id);
 
+    List<ProposalDTO> getTopProposals(int noOfProposals);
 }

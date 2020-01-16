@@ -13,7 +13,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     private AttendanceObject attendanceObject;
 
     @Override
-    public void saveAttendance(AttendanceDTO theAttendance) throws IOException {
+    public void saveAttendance(AttendanceDTO theAttendance) throws Exception {
         attendanceObject.saveAttendance(theAttendance);
     }
 
@@ -23,7 +23,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public void updateAttendance(AttendanceDTO attendance) {
+    public void updateAttendance(AttendanceDTO attendance) throws Exception {
         attendanceObject.updateAttendance(attendance);
     }
 
@@ -36,4 +36,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     public AttendanceDTO findAttendanceById(int id) {
         return attendanceObject.findAttendanceById(id);
     }
+
+
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -31,12 +32,12 @@ public class ProposalEntity {
     private String proposalDuration;
     @Column(name="proposal_maximum_number_of_people")
     private int proposalMaximumNumberOfPeople;
+
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private UserEntity user;
 
-
-
     @OneToMany(mappedBy = "proposal")
-    Set<VoteEntity> votes;
+    List<VoteEntity> votes;
+
 }

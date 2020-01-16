@@ -13,31 +13,35 @@ import java.util.List;
 public class ProposalServiceImpl implements ProposalService {
 
     @Autowired
-    private ProposalObject ProposalObject;
+    private ProposalObject proposalObject;
 
     @Override
     public void saveProposal(ProposalDTO theProposal) throws IOException {
-        ProposalObject.saveProposal(theProposal);
+        proposalObject.saveProposal(theProposal);
     }
 
     @Override
     public void removeProposal(int ProposalId) {
-        ProposalObject.removeProposal(ProposalId);
+        proposalObject.removeProposal(ProposalId);
     }
 
     @Override
     public void updateProposal(ProposalDTO proposal) {
-        ProposalObject.updateProposal(proposal);
+        proposalObject.updateProposal(proposal);
     }
 
     @Override
     public List<ProposalDTO> findAllProposals() {
-        return ProposalObject.findAllProposals();
+        return proposalObject.findAllProposals();
     }
 
     @Override
     public ProposalDTO findProposalById(int id) {
-        return ProposalObject.findProposalById(id);
+        return proposalObject.findProposalById(id);
     }
 
+    @Override
+    public List<ProposalDTO> getTopProposals(int noOfProposals) {
+        return proposalObject.getTopProposals(noOfProposals);
+    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface VoteService {
 
-    void saveVote(VoteDTO Vote) throws IOException;
+    void saveVote(VoteDTO Vote) throws Exception;
 
     void removeVote(int VoteId);
 

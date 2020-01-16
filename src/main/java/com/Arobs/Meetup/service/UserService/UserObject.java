@@ -39,12 +39,21 @@ public class UserObject {
 
 
     @Transactional
-    public void saveUser(UserDTO theUser) throws IOException {
-
+    public void saveUser(UserDTO theUser) throws Exception {
 
         UserEntity user = new UserEntity();
         userMapper.map(theUser,user);
-        userDAO.saveData(user);
+        try {
+            UserEntity userEntity = userDAO.findByEmail(theUser.getUserEmail());
+            throw new Exception("User exists!");
+            }
+        catch(Exception e){
+            if (e.getMessage().equals("User exists!"))
+                throw new Exception("There is already an user using this email");
+            else
+                userDAO.saveData(user);
+        }
+
     }
 
 
@@ -81,5 +90,16 @@ public class UserObject {
         userMapper.map(userEntity,userDTO);
 
         return userDTO;
+    }
+
+    @Transactional
+    public void addPointsToUser(String email, int numberOfPoints) throws Exception {
+
+        UserEntity userEntity = userDAO.findByEmail(email);
+        userEntity.setUserVotes(userEntity.getUserVotes() + numberOfPoints);
+
+        userDAO.updateData(userEntity);
+
+
     }
 }

@@ -13,7 +13,7 @@ public class VoteServiceImpl implements VoteService {
     private VoteObject VoteObject;
 
     @Override
-    public void saveVote(VoteDTO theVote) throws IOException {
+    public void saveVote(VoteDTO theVote) throws Exception {
         VoteObject.saveVote(theVote);
     }
 
@@ -35,5 +35,11 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public VoteDTO findVoteById(int id) {
         return VoteObject.findVoteById(id);
+    }
+
+    @Override
+    public void deleteVotesForProposal(int proposalId)
+    {
+        VoteObject.deleteVotesForProposal(proposalId);
     }
 }

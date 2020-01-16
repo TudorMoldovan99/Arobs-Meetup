@@ -7,9 +7,10 @@ import com.Arobs.Meetup.repository.EventRepositoryImpl;
 import com.Arobs.Meetup.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public final class AttendanceMapper {
+public  class AttendanceMapper {
 
     @Autowired
     UserRepositoryImpl userRepository;
@@ -17,12 +18,14 @@ public final class AttendanceMapper {
     @Autowired
     EventRepositoryImpl eventRepository;
 
+
     public  void map(AttendanceEntity source, AttendanceDTO destination) {
         destination.setComment(source.getComment());
         destination.setNote(source.getNote());
         destination.setUserId(source.getUser().getUserId());
         destination.setEventId(source.getEvent().getEventId());
     }
+
 
     public void map(AttendanceDTO source, AttendanceEntity destination) {
 

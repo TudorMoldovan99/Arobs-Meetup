@@ -8,13 +8,15 @@ import java.util.List;
 @Service
 public interface AttendanceService {
 
-    void saveAttendance(AttendanceDTO Attendance) throws IOException;
+    void saveAttendance(AttendanceDTO Attendance) throws Exception;
 
     void removeAttendance(int AttendanceId);
 
-    void updateAttendance(AttendanceDTO Attendance);
+    void updateAttendance(AttendanceDTO Attendance) throws Exception;
 
     List<AttendanceDTO> findAllAttendances();
 
     AttendanceDTO findAttendanceById(int id);
+
+
 }

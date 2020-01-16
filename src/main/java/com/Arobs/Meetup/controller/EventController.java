@@ -4,6 +4,7 @@ import com.Arobs.Meetup.service.EventService.EventDTO;
 import com.Arobs.Meetup.service.EventService.EventService;
 import com.Arobs.Meetup.service.ProposalService.ProposalDTO;
 import com.Arobs.Meetup.service.ProposalService.ProposalService;
+import com.Arobs.Meetup.service.VoteService.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class EventController {
     @Autowired
     private ProposalService proposalService;
 
+    @Autowired
+    private VoteService voteService;
+
     @GetMapping("/list")
     public ResponseEntity<List<EventDTO>> listEvents() {
         return  ResponseEntity.ok(eventService.findAllEvents());
@@ -29,22 +33,22 @@ public class EventController {
 
 
     @PostMapping("/saveEvent")
-    public ResponseEntity<String> saveEvent(@RequestBody EventDTO theEvent , @RequestParam("ProposalId") int prososalId, @RequestParam("AdminId") int adminId) throws Exception {
+    public ResponseEntity<String> saveEvent(@RequestBody EventDTO theEvent , @RequestParam("ProposalId") int proposalId, @RequestParam("AdminId") int adminId) throws Exception {
 
-        ProposalDTO  proposalDTO = proposalService.findProposalById(prososalId);
+        ProposalDTO  proposalDTO = proposalService.findProposalById(proposalId);
         int proposalHost = proposalDTO.getUserId();
 
         if(proposalHost != adminId) {
             eventService.saveEvent(theEvent);
-            proposalService.removeProposal(prososalId);
+            voteService.deleteVotesForProposal(proposalId);
+            proposalService.removeProposal(proposalId);
+
             return ResponseEntity.ok("event saved");
         }
         else
         {
             throw new Exception("Admin cannot accept his own proposal!");
         }
-
-
     }
 
     @PostMapping("/delete")

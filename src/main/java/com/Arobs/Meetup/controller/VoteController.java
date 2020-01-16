@@ -24,7 +24,7 @@ public class VoteController {
 
 
     @PostMapping("/saveVote")
-    public ResponseEntity<String> saveVote(@RequestBody VoteDTO theVote) throws IOException {
+    public ResponseEntity<String> saveVote(@RequestBody VoteDTO theVote) throws Exception {
         voteService.saveVote(theVote);
         return ResponseEntity.ok("Vote saved");
     }
@@ -34,4 +34,7 @@ public class VoteController {
         voteService.removeVote(theId);
         return ResponseEntity.ok("Vote deleted");
     }
+
+
+
 }

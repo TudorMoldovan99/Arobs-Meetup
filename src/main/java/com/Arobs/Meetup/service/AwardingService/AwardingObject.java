@@ -1,7 +1,9 @@
 package com.Arobs.Meetup.service.AwardingService;
 
 import com.Arobs.Meetup.model.AwardingEntity;
+import com.Arobs.Meetup.model.UserEntity;
 import com.Arobs.Meetup.repository.AwardingRepositoryImpl;
+import com.Arobs.Meetup.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,9 @@ public class AwardingObject {
 
     @Autowired
     private AwardingRepositoryImpl AwardingDAO;
+
+    @Autowired
+    private UserRepositoryImpl userDAO;
 
     @Autowired
     private AwardingMapper awardingMapper;
@@ -36,10 +41,20 @@ public class AwardingObject {
     @Transactional
     public void saveAwarding(AwardingDTO theAwarding) throws IOException {
 
-
         AwardingEntity Awarding = new AwardingEntity();
         awardingMapper.map(theAwarding, Awarding);
         AwardingDAO.saveData(Awarding);
+
+        List<UserEntity> userList = userDAO.findAll();
+
+        for (UserEntity userEntity : userList)
+        {
+            userEntity.setUserVotes(0);
+            userDAO.updateData(userEntity);
+        }
+
+
+
     }
 
 

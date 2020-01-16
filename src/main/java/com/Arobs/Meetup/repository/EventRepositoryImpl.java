@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -56,5 +57,20 @@ public class EventRepositoryImpl implements IRepository<EventEntity> {
     public EventEntity findById(int id) {
         Session currentSession = sessionFactory.getCurrentSession();
         return currentSession.get(EventEntity.class, id);
+    }
+
+    public EventEntity findByTitle(String title) throws Exception{
+
+        Session session = sessionFactory.getCurrentSession();
+        Query hql = session.createQuery("from EventEntity u where u.eventTitle = :title")
+                .setParameter("title", title);
+        EventEntity foundEvent = null;
+        try {
+            foundEvent = (EventEntity) hql.getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException("Event does not exist!");
+        }
+        return foundEvent;
+
     }
 }

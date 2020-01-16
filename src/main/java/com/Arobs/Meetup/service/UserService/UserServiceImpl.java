@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private UserObject userObject;
 
     @Override
-    public void saveUser(UserDTO theUser) throws IOException {
+    public void saveUser(UserDTO theUser) throws Exception {
         if(theUser.getUserEmail() == "" )
             throw new IOException("Email cannot be empty");
         if (theUser.getUserFullName().equals( ""))
@@ -52,5 +52,10 @@ public class UserServiceImpl implements UserService {
     public UserDTO findByEmailAndPassword(String email, String password) throws Exception {
         UserDTO userDTO = userObject.findByEmailAndPassword(email,password);
         return userDTO;
+    }
+
+    @Override
+    public void addPointsToUser(String email, int numberOfPoints) throws Exception {
+        userObject.addPointsToUser(email,numberOfPoints);
     }
 }

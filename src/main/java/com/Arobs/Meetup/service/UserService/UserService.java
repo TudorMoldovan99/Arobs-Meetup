@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
 
 
-    void saveUser(UserDTO user) throws IOException;
+    void saveUser(UserDTO user) throws Exception;
 
     void removeUser(int userId);
 
@@ -23,4 +23,5 @@ public interface UserService {
     UserDTO findByEmailAndPassword(String email, String password) throws Exception;
 
 
+    void addPointsToUser(String email, int numberOfPoints) throws Exception;
 }

@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table(name = "Attendance")
 public class AttendanceEntity {
@@ -18,7 +17,7 @@ public class AttendanceEntity {
     private int attendanceId;
     @Column(name = "comment")
     private String comment;
-    @Column(name="note") @NonNull
+    @Column(name="note")
     private int note;
 
     @ManyToOne
